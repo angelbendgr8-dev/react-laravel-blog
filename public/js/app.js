@@ -82670,7 +82670,6 @@ function Comment(_ref) {
     dispatch({
       type: "TOGGLE_RESPONSE_FORM"
     });
-    console.log(value);
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -82770,7 +82769,6 @@ var CommentArea = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log(this.props.comments);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comment_area clearfix bg-white mb-30 p-30 box-shadow"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -83535,9 +83533,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _layouts_Sidebar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../layouts/Sidebar */ "./resources/js/components/layouts/Sidebar.js");
 /* harmony import */ var _layouts_CommentForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../layouts/CommentForm */ "./resources/js/components/layouts/CommentForm.js");
 /* harmony import */ var _redux_actions_commentAction__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../redux/actions/commentAction */ "./resources/js/redux/actions/commentAction.js");
-/* harmony import */ var _layouts_CommentArea__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../layouts/CommentArea */ "./resources/js/components/layouts/CommentArea.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _layouts_Loading__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../layouts/Loading */ "./resources/js/components/layouts/Loading.js");
+/* harmony import */ var _redux_actions_HistoryAction__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../redux/actions/HistoryAction */ "./resources/js/redux/actions/HistoryAction.js");
+/* harmony import */ var _layouts_CommentArea__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../layouts/CommentArea */ "./resources/js/components/layouts/CommentArea.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _layouts_Loading__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../layouts/Loading */ "./resources/js/components/layouts/Loading.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83559,6 +83558,8 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
 
 
 
@@ -83611,10 +83612,11 @@ var Details = /*#__PURE__*/function (_Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
       if (this.props.location.readProps.id !== prevProps.location.readProps.id) {
+        this.props.addHistory(prevProps.location.readProps);
         this.props.fetchPost(this.props.location.readProps.id);
         this.props.fetchComment(this.props.location.readProps.id);
         window.scrollTo(0, 0);
-      } else {}
+      }
     }
   }, {
     key: "addNewComment",
@@ -83624,6 +83626,12 @@ var Details = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      if (!this.props.location.readProps) {
+        var prev = this.props.history[this.props.history.length - 1];
+        this.props.removeHistory(prev);
+        this.props.location.readProps = prev;
+      }
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "post-details-area mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -83634,7 +83642,7 @@ var Details = /*#__PURE__*/function (_Component) {
         className: "col-12 col-xl-8"
       }, this.props.current ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PostDetails__WEBPACK_IMPORTED_MODULE_3__["default"], {
         post: this.props.current.post
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_Loading__WEBPACK_IMPORTED_MODULE_10__["default"], {
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_Loading__WEBPACK_IMPORTED_MODULE_11__["default"], {
         text: "fetching Post"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "related-post-area bg-white mb-30 px-30 pt-30 box-shadow"
@@ -83644,7 +83652,7 @@ var Details = /*#__PURE__*/function (_Component) {
         className: "row"
       }, this.props.current ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_RelatedPosts__WEBPACK_IMPORTED_MODULE_4__["default"], {
         posts: this.props.current.related
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_CommentArea__WEBPACK_IMPORTED_MODULE_8__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_CommentForm__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_CommentArea__WEBPACK_IMPORTED_MODULE_9__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_CommentForm__WEBPACK_IMPORTED_MODULE_6__["default"], {
         text: "Comment",
         post_id: this.props.location.readProps.id,
         newCommentAdded: this.addNewComment
@@ -83658,7 +83666,8 @@ var Details = /*#__PURE__*/function (_Component) {
 var mapStateToProps = function mapStateToProps(state) {
   return {
     current: state.postReducers.current,
-    comments: state.commentReducer.comments
+    comments: state.commentReducer.comments,
+    history: state.HistoryReducer.history
   };
 };
 
@@ -83672,11 +83681,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchComment: function fetchComment(id) {
       return dispatch(Object(_redux_actions_commentAction__WEBPACK_IMPORTED_MODULE_7__["fetchComment"])(id));
+    },
+    addHistory: function addHistory(data) {
+      return dispatch(Object(_redux_actions_HistoryAction__WEBPACK_IMPORTED_MODULE_8__["addHistory"])(data));
+    },
+    removeHistory: function removeHistory(id) {
+      return dispatch(Object(_redux_actions_HistoryAction__WEBPACK_IMPORTED_MODULE_8__["removeHistory"])(id));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_9__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(Details)));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_10__["withRouter"])(Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(Details)));
 
 /***/ }),
 
@@ -85259,6 +85274,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_owl_carousel2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-owl-carousel2 */ "./node_modules/react-owl-carousel2/lib/OwlCarousel.js");
 /* harmony import */ var react_owl_carousel2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_owl_carousel2__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _layouts_Loading__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../layouts/Loading */ "./resources/js/components/layouts/Loading.js");
+/* harmony import */ var _redux_actions_HistoryAction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../redux/actions/HistoryAction */ "./resources/js/redux/actions/HistoryAction.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -85287,6 +85303,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var TrendingNewsContainer = /*#__PURE__*/function (_Component) {
   _inherits(TrendingNewsContainer, _Component);
 
@@ -85300,7 +85317,11 @@ var TrendingNewsContainer = /*#__PURE__*/function (_Component) {
 
   _createClass(TrendingNewsContainer, [{
     key: "componentDidMount",
-    value: function componentDidMount() {// console.log(this.props.posts)
+    value: function componentDidMount() {
+      // console.log(this.props.posts)
+      if (this.props.history.length > 0) {
+        this.props.clearHistory();
+      }
     }
   }, {
     key: "render",
@@ -85329,7 +85350,6 @@ var TrendingNewsContainer = /*#__PURE__*/function (_Component) {
       };
 
       if (this.props.posts.length === 0) {
-        console.log('empty');
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_layouts_Loading__WEBPACK_IMPORTED_MODULE_4__["default"], {
           text: "fetching Trending News"
         });
@@ -85353,11 +85373,55 @@ var TrendingNewsContainer = /*#__PURE__*/function (_Component) {
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    posts: state.postReducers.posts
+    posts: state.postReducers.posts,
+    history: state.HistoryReducer.history
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps)(TrendingNewsContainer));
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    clearHistory: function clearHistory() {
+      return dispatch(Object(_redux_actions_HistoryAction__WEBPACK_IMPORTED_MODULE_5__["clearHistory"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(mapStateToProps, mapDispatchToProps)(TrendingNewsContainer));
+
+/***/ }),
+
+/***/ "./resources/js/redux/actions/HistoryAction.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/redux/actions/HistoryAction.js ***!
+  \*****************************************************/
+/*! exports provided: addHistory, removeHistory, clearHistory */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "addHistory", function() { return addHistory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeHistory", function() { return removeHistory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearHistory", function() { return clearHistory; });
+/* harmony import */ var _reducers_HistoryReducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../reducers/HistoryReducer */ "./resources/js/redux/reducers/HistoryReducer.js");
+
+var addHistory = function addHistory(payload) {
+  console.log(payload);
+  return {
+    type: 'ADD_HISTORY',
+    payload: payload
+  };
+};
+var removeHistory = function removeHistory(payload) {
+  return {
+    type: 'REMOVE_HISTORY',
+    payload: payload
+  };
+};
+var clearHistory = function clearHistory() {
+  return {
+    type: 'CLEAR_HISTORY'
+  };
+};
 
 /***/ }),
 
@@ -85472,6 +85536,71 @@ var fetchPost = function fetchPost(id) {
     });
   };
 };
+
+/***/ }),
+
+/***/ "./resources/js/redux/reducers/HistoryReducer.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/redux/reducers/HistoryReducer.js ***!
+  \*******************************************************/
+/*! exports provided: types, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "types", function() { return types; });
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+var initialState = {
+  history: []
+};
+var types = {
+  ADD_HISTORY: "ADD_HISTORY",
+  REMOVE_HISTORY: 'REMOVE_HISTORY',
+  CLEAR_HISTORY: 'CLEAR_HISTORY'
+};
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+
+  var _ref = arguments.length > 1 ? arguments[1] : undefined,
+      type = _ref.type,
+      payload = _ref.payload;
+
+  switch (type) {
+    case types.ADD_HISTORY:
+      return {
+        history: [].concat(_toConsumableArray(state.history), [payload])
+      };
+      break;
+
+    case types.REMOVE_HISTORY:
+      return {
+        history: state.history.filter(function (item) {
+          return item.id === payload;
+        })
+      };
+      break;
+
+    case types.CLEAR_HISTORY:
+      return {
+        history: []
+      };
+      break;
+
+    default:
+      return state;
+  }
+});
 
 /***/ }),
 
@@ -85610,12 +85739,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _postReducers__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./postReducers */ "./resources/js/redux/reducers/postReducers.js");
 /* harmony import */ var _commentReducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./commentReducer */ "./resources/js/redux/reducers/commentReducer.js");
+/* harmony import */ var _HistoryReducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./HistoryReducer */ "./resources/js/redux/reducers/HistoryReducer.js");
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   postReducers: _postReducers__WEBPACK_IMPORTED_MODULE_1__["postReducers"],
-  commentReducer: _commentReducer__WEBPACK_IMPORTED_MODULE_2__["commentReducer"]
+  commentReducer: _commentReducer__WEBPACK_IMPORTED_MODULE_2__["commentReducer"],
+  HistoryReducer: _HistoryReducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),

@@ -12,7 +12,7 @@ import {connect} from "react-redux";
     
 
     render() {
-        console.log(this.props.comments)
+       
         return (
             <div className="comment_area clearfix bg-white mb-30 p-30 box-shadow">
                 {/* <!-- Section Title --> */}

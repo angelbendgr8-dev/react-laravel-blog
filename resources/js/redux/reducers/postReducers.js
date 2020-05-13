@@ -19,7 +19,7 @@ export const postReducers = (state = initialState, action) => {
     let posts = action.payload;
     
     return { 
-         posts: posts
+         posts: posts,
     }
    
     break;

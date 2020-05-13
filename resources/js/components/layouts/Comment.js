@@ -8,7 +8,6 @@ export default function Comment({ comment }) {
     const dispatch = useDispatch();
     function showReplyForm() {
         dispatch({type:"TOGGLE_RESPONSE_FORM"});
-        console.log(value);
     }
    
     return (

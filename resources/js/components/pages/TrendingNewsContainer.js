@@ -3,6 +3,7 @@ import TrendingNews from './TrendingNews'
 import {connect} from 'react-redux';
 import OwlCarousel from 'react-owl-carousel2';
 import Loading from '../layouts/Loading';
+import { clearHistory } from "../../redux/actions/HistoryAction";  
 
 
  class TrendingNewsContainer extends Component {
@@ -16,12 +17,16 @@ import Loading from '../layouts/Loading';
 
     componentDidMount(){
         // console.log(this.props.posts)
+        if(this.props.history.length > 0){
+            this.props.clearHistory();
+         }
     }
 
     
      
 
     render(){
+        
         let options ={
             items: 3,
             margin: 30,
@@ -45,7 +50,7 @@ import Loading from '../layouts/Loading';
             }
         }
         if(this.props.posts.length === 0){
-            console.log('empty')
+           
             return(
                 <Loading text="fetching Trending News"/>
             )
@@ -65,9 +70,19 @@ import Loading from '../layouts/Loading';
 }
 
 const mapStateToProps = (state) => ({
-    posts: state.postReducers.posts
+    posts: state.postReducers.posts,
+    history: state.HistoryReducer.history
 })
 
 
 
-export default connect(mapStateToProps)(TrendingNewsContainer)
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        clearHistory:()=>dispatch(clearHistory())
+    }
+}
+
+
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(TrendingNewsContainer)

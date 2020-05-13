@@ -7,6 +7,8 @@ import Sidebar from "../layouts/Sidebar";
 import CommentForm from "../layouts/CommentForm";
 import { addComment } from "../../redux/actions/commentAction";
 import { fetchComment } from "../../redux/actions/commentAction";
+import { addHistory } from "../../redux/actions/HistoryAction";
+import { removeHistory } from "../../redux/actions/HistoryAction";
 import CommentArea from "../layouts/CommentArea";
 import { withRouter } from "react-router-dom";
 import Loading from "../layouts/Loading";
@@ -42,13 +44,11 @@ class Details extends Component {
             
             this.props.location.readProps.id !== prevProps.location.readProps.id
         ) {
-            
-            this.props.fetchPost(this.props.location.readProps.id);
-            this.props.fetchComment(this.props.location.readProps.id);
-            
-            window.scrollTo(0, 0);
-        }else{
+                this.props.addHistory(prevProps.location.readProps);
+                this.props.fetchPost(this.props.location.readProps.id);
+                this.props.fetchComment(this.props.location.readProps.id);
            
+            window.scrollTo(0, 0);
         }
         
     }
@@ -59,7 +59,12 @@ class Details extends Component {
     }
 
     render() {
-        
+        if(!this.props.location.readProps){
+            let prev = this.props.history[this.props.history.length-1];
+            this.props.removeHistory(prev);
+            this.props.location.readProps = prev;
+            
+        }
         return (
             <section className="post-details-area mt-5">
                 <div className="container">
@@ -107,14 +112,17 @@ class Details extends Component {
 }
 const mapStateToProps = state => ({
     current: state.postReducers.current,
-    comments: state.commentReducer.comments
+    comments: state.commentReducer.comments,
+    history: state.HistoryReducer.history,
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchPost: id => dispatch(fetchPost(id)),
         addComment: data =>dispatch(addComment(data)),
-        fetchComment:id => dispatch(fetchComment(id))
+        fetchComment:id => dispatch(fetchComment(id)),
+        addHistory: data => dispatch(addHistory(data)),
+        removeHistory: (id)=> dispatch(removeHistory(id)),
     };
 };
 
