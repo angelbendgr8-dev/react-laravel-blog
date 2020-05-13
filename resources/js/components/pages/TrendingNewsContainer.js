@@ -2,6 +2,7 @@ import React, {useEffect,Component} from 'react'
 import TrendingNews from './TrendingNews'
 import {connect} from 'react-redux';
 import OwlCarousel from 'react-owl-carousel2';
+import Loading from '../layouts/Loading';
 
 
  class TrendingNewsContainer extends Component {
@@ -45,7 +46,9 @@ import OwlCarousel from 'react-owl-carousel2';
         }
         if(this.props.posts.length === 0){
             console.log('empty')
-            return<></>
+            return(
+                <Loading text="fetching Trending News"/>
+            )
         }else{
             // console.log(this.props.posts)
             return (

@@ -9,6 +9,7 @@ import { addComment } from "../../redux/actions/commentAction";
 import { fetchComment } from "../../redux/actions/commentAction";
 import CommentArea from "../layouts/CommentArea";
 import { withRouter } from "react-router-dom";
+import Loading from "../layouts/Loading";
 
 class Details extends Component {
     constructor(props) {
@@ -67,7 +68,7 @@ class Details extends Component {
                             {this.props.current ? (
                                 <PostDetails post={this.props.current.post} />
                             ) : (
-                                <></>
+                                <Loading text='fetching Post'/>
                             )}
                             {/* <!-- Related Post Area --> */}
                             <div className="related-post-area bg-white mb-30 px-30 pt-30 box-shadow">
